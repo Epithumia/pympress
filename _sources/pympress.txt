@@ -1,0 +1,37 @@
+pympress package
+================
+
+.. automodule:: pympress
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. automodule:: pympress.document
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: pympress.slideselector
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: pympress.surfacecache
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: pympress.ui
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: pympress.util
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+

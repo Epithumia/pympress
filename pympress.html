@@ -1,0 +1,1466 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pympress package &mdash; Pympress developer documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/pympress-32.png"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pympress developer documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Pympress
+          
+
+          
+            
+            <img src="_static/pympress-128.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pympress package</a><ul>
+<li><a class="reference internal" href="#module-pympress.document">Submodules</a><ul>
+<li><a class="reference internal" href="#pympress-document-document-handling"><code class="docutils literal"><span class="pre">pympress.document</span></code> &#8211; document handling</a></li>
+<li><a class="reference internal" href="#pympress-ui-slide-selector"><code class="docutils literal"><span class="pre">pympress.ui</span></code> &#8211; Slide selector</a></li>
+<li><a class="reference internal" href="#pympress-surfacecache-pages-prerendering-and-caching"><code class="docutils literal"><span class="pre">pympress.surfacecache</span></code> &#8211; pages prerendering and caching</a></li>
+<li><a class="reference internal" href="#pympress-ui-gui-management"><code class="docutils literal"><span class="pre">pympress.ui</span></code> &#8211; GUI management</a></li>
+<li><a class="reference internal" href="#pympress-util-various-utility-functions"><code class="docutils literal"><span class="pre">pympress.util</span></code> &#8211; various utility functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Pympress</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>pympress package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pympress-package">
+<h1>pympress package<a class="headerlink" href="#pympress-package" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-pympress"></span><div class="section" id="module-pympress.document">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-pympress.document" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pympress-document-document-handling">
+<h3><a class="reference internal" href="#module-pympress.document" title="pympress.document"><code class="xref py py-mod docutils literal"><span class="pre">pympress.document</span></code></a> &#8211; document handling<a class="headerlink" href="#pympress-document-document-handling" title="Permalink to this headline">¶</a></h3>
+<p>This module contains several classes that are used for managing documents (only
+PDF documents are supported at the moment, but other formats may be added in the
+future).</p>
+<p>An important point is that this module is <em>completely</em> independant from the GUI:
+there should not be any GUI-related code here, except for page rendering (and
+only rendering itself: the preparation of the target surface must be done
+elsewhere).</p>
+<dl class="class">
+<dt id="pympress.document.Document">
+<em class="property">class </em><code class="descclassname">pympress.document.</code><code class="descname">Document</code><span class="sig-paren">(</span><em>page_change_callback</em>, <em>path</em>, <em>page=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This is the main document handling class.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The internal page numbering scheme is the same as in Poppler: it
+starts at 0.</p>
+</div>
+<dl class="attribute">
+<dt id="pympress.document.Document.cur_page">
+<code class="descname">cur_page</code><em class="property"> = -1</em><a class="headerlink" href="#pympress.document.Document.cur_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of the current page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.current_page">
+<code class="descname">current_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.current_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the current page</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pympress.document.Page" title="pympress.document.Page"><code class="xref py py-class docutils literal"><span class="pre">pympress.document.Page</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Document.doc">
+<code class="descname">doc</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Document.doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current PDF document (<code class="xref py py-class docutils literal"><span class="pre">Poppler.Document</span></code> instance)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.goto">
+<code class="descname">goto</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.goto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to another page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>number</strong> (<em>integer</em>) &#8211; number of the destination page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.goto_end">
+<code class="descname">goto_end</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.goto_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to the last page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.goto_home">
+<code class="descname">goto_home</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.goto_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to the first page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.goto_next">
+<code class="descname">goto_next</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.goto_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to the next page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.goto_prev">
+<code class="descname">goto_prev</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.goto_prev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to the previous page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.has_notes">
+<code class="descname">has_notes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.has_notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the document mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if the document has notes, <code class="docutils literal"><span class="pre">False</span></code> otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Document.nb_pages">
+<code class="descname">nb_pages</code><em class="property"> = -1</em><a class="headerlink" href="#pympress.document.Document.nb_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of pages in the document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.next_page">
+<code class="descname">next_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.next_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the next page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the next page, or <code class="docutils literal"><span class="pre">None</span></code> if this is the last page</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pympress.document.Page" title="pympress.document.Page"><code class="xref py py-class docutils literal"><span class="pre">pympress.document.Page</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Document.notes">
+<code class="descname">notes</code><em class="property"> = False</em><a class="headerlink" href="#pympress.document.Document.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Document with notes or not</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Document.on_page_change">
+<code class="descname">on_page_change</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Document.on_page_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function to signal whenever we change pages</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.page">
+<code class="descname">page</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the specified page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>number</strong> (<em>integer</em>) &#8211; number of the page to return</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the wanted page, or <code class="docutils literal"><span class="pre">None</span></code> if it does not exist</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pympress.document.Page" title="pympress.document.Page"><code class="xref py py-class docutils literal"><span class="pre">pympress.document.Page</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Document.pages_cache">
+<code class="descname">pages_cache</code><em class="property"> = {}</em><a class="headerlink" href="#pympress.document.Document.pages_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pages cache (dictionary of <a class="reference internal" href="#pympress.document.Page" title="pympress.document.Page"><code class="xref py py-class docutils literal"><span class="pre">pympress.document.Page</span></code></a>). This makes
+navigation in the document faster by avoiding calls to Poppler when loading
+a page that has already been loaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Document.pages_number">
+<code class="descname">pages_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Document.pages_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of pages in the document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of pages in the document</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">integer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pympress.document.Link">
+<em class="property">class </em><code class="descclassname">pympress.document.</code><code class="descname">Link</code><span class="sig-paren">(</span><em>x1</em>, <em>y1</em>, <em>x2</em>, <em>y2</em>, <em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This class encapsulates one hyperlink of the document.</p>
+<dl class="method">
+<dt id="pympress.document.Link.follow">
+<code class="descname">follow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Link.follow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Follow the link to its destination.
+This is overriden by the function to perform the actual action in the constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Link.is_over">
+<code class="descname">is_over</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Link.is_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the input coordinates are on the link rectangle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>float</em>) &#8211; input x coordinate</li>
+<li><strong>y</strong> (<em>float</em>) &#8211; input y coordinate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">True</span></code> if the input coordinates are within the link
+rectangle, <code class="docutils literal"><span class="pre">False</span></code> otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Link.x1">
+<code class="descname">x1</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Link.x1" title="Permalink to this definition">¶</a></dt>
+<dd><p>First x coordinate of the link rectangle, as a float number</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Link.x2">
+<code class="descname">x2</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Link.x2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second x coordinate of the link rectangle, as a float number</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Link.y1">
+<code class="descname">y1</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Link.y1" title="Permalink to this definition">¶</a></dt>
+<dd><p>First y coordinate of the link rectangle, as a float number</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Link.y2">
+<code class="descname">y2</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Link.y2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second y coordinate of the link rectangle, as a float number</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pympress.document.Page">
+<em class="property">class </em><code class="descclassname">pympress.document.</code><code class="descname">Page</code><span class="sig-paren">(</span><em>doc</em>, <em>number</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class representing a single page.</p>
+<p>It provides several methods used by the GUI for preparing windows for
+displaying pages, managing hyperlinks, etc.</p>
+<dl class="method">
+<dt id="pympress.document.Page.get_aspect_ratio">
+<code class="descname">get_aspect_ratio</code><span class="sig-paren">(</span><em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page.get_aspect_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the page aspect ratio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dtype</strong> (<em>integer</em>) &#8211; the type of document to consider</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">page aspect ratio</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Page.get_link_at">
+<code class="descname">get_link_at</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page.get_link_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the <a class="reference internal" href="#pympress.document.Link" title="pympress.document.Link"><code class="xref py py-class docutils literal"><span class="pre">Link</span></code></a> corresponding to the given
+position, or <code class="docutils literal"><span class="pre">None</span></code> if there is no link at this position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>float</em>) &#8211; horizontal coordinate</li>
+<li><strong>y</strong> (<em>float</em>) &#8211; vertical coordinate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the link at the given coordinates if one exists, <code class="docutils literal"><span class="pre">None</span></code>
+otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pympress.document.Link" title="pympress.document.Link"><code class="xref py py-class docutils literal"><span class="pre">pympress.document.Link</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Page.get_size">
+<code class="descname">get_size</code><span class="sig-paren">(</span><em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page.get_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the page size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dtype</strong> (<em>integer</em>) &#8211; the type of document to consider</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">page size</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(float, float)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Page.links">
+<code class="descname">links</code><em class="property"> = []</em><a class="headerlink" href="#pympress.document.Page.links" title="Permalink to this definition">¶</a></dt>
+<dd><p>All the links in the page, as a list of <a class="reference internal" href="#pympress.document.Link" title="pympress.document.Link"><code class="xref py py-class docutils literal"><span class="pre">Link</span></code></a>
+instances</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Page.number">
+<code class="descname">number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page.number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the page number</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Page.page">
+<code class="descname">page</code><em class="property"> = None</em><a class="headerlink" href="#pympress.document.Page.page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Page handled by this class (instance of <code class="xref py py-class docutils literal"><span class="pre">Poppler.Page</span></code>)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Page.page_nb">
+<code class="descname">page_nb</code><em class="property"> = -1</em><a class="headerlink" href="#pympress.document.Page.page_nb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of the current page (starting from 0)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Page.ph">
+<code class="descname">ph</code><em class="property"> = 0.0</em><a class="headerlink" href="#pympress.document.Page.ph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Page height as a float</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.document.Page.pw">
+<code class="descname">pw</code><em class="property"> = 0.0</em><a class="headerlink" href="#pympress.document.Page.pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Page width as a float</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.document.Page.render_cairo">
+<code class="descname">render_cairo</code><span class="sig-paren">(</span><em>cr</em>, <em>ww</em>, <em>wh</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.document.Page.render_cairo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render the page on a Cairo surface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cr</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gdk.CairoContext</span></code>) &#8211; target surface</li>
+<li><strong>ww</strong> (<em>integer</em>) &#8211; target width in pixels</li>
+<li><strong>wh</strong> (<em>integer</em>) &#8211; target height in pixels</li>
+<li><strong>dtype</strong> (<em>integer</em>) &#8211; the type of document that should be rendered</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pympress.slideselector"></span><div class="section" id="pympress-ui-slide-selector">
+<h3><a class="reference internal" href="#module-pympress.ui" title="pympress.ui"><code class="xref py py-mod docutils literal"><span class="pre">pympress.ui</span></code></a> &#8211; Slide selector<a class="headerlink" href="#pympress-ui-slide-selector" title="Permalink to this headline">¶</a></h3>
+<p>This module contains the special spinbutton that allows the UI to preview
+pages without changing them on the main screen. It is thus well connected
+to the <a class="reference internal" href="#pympress.ui.UI" title="pympress.ui.UI"><code class="xref py py-class docutils literal"><span class="pre">UI</span></code></a> object.</p>
+<dl class="class">
+<dt id="pympress.slideselector.SlideSelector">
+<em class="property">class </em><code class="descclassname">pympress.slideselector.</code><code class="descname">SlideSelector</code><span class="sig-paren">(</span><em>parent</em>, <em>maxpage</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">gi.repository.Gtk.SpinButton</span></code></p>
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.cancel">
+<code class="descname">cancel</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.cancel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.done">
+<code class="descname">done</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.done" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.force_update">
+<code class="descname">force_update</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.force_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.get_page">
+<code class="descname">get_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.get_page" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.slideselector.SlideSelector.maxpage">
+<code class="descname">maxpage</code><em class="property"> = -1</em><a class="headerlink" href="#pympress.slideselector.SlideSelector.maxpage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.on_changed">
+<code class="descname">on_changed</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.on_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.on_keypress">
+<code class="descname">on_keypress</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.on_keypress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.slideselector.SlideSelector.on_keyup">
+<code class="descname">on_keyup</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.slideselector.SlideSelector.on_keyup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.slideselector.SlideSelector.timer">
+<code class="descname">timer</code><em class="property"> = -1</em><a class="headerlink" href="#pympress.slideselector.SlideSelector.timer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.slideselector.SlideSelector.ui">
+<code class="descname">ui</code><em class="property"> = None</em><a class="headerlink" href="#pympress.slideselector.SlideSelector.ui" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pympress.surfacecache"></span><div class="section" id="pympress-surfacecache-pages-prerendering-and-caching">
+<h3><a class="reference internal" href="#module-pympress.surfacecache" title="pympress.surfacecache"><code class="xref py py-mod docutils literal"><span class="pre">pympress.surfacecache</span></code></a> &#8211; pages prerendering and caching<a class="headerlink" href="#pympress-surfacecache-pages-prerendering-and-caching" title="Permalink to this headline">¶</a></h3>
+<p>This modules contains stuff needed for caching pages and prerendering them. This
+is done by the <a class="reference internal" href="#pympress.surfacecache.SurfaceCache" title="pympress.surfacecache.SurfaceCache"><code class="xref py py-class docutils literal"><span class="pre">SurfaceCache</span></code></a> class, using several
+dictionaries of <code class="xref py py-class docutils literal"><span class="pre">cairo.ImageSurface</span></code> for storing rendered pages.</p>
+<p>The problem is, neither Gtk+ nor Poppler are particularly threadsafe.
+Hence the prerendering isn&#8217;t really done in parallel in another thread, but
+scheduled on the main thread at idle times using GLib.add_idle().</p>
+<dl class="class">
+<dt id="pympress.surfacecache.OrderedDict">
+<em class="property">class </em><code class="descclassname">pympress.surfacecache.</code><code class="descname">OrderedDict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.OrderedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></p>
+<p>OrderedDict for python2 compatibility, adding move_to_end().</p>
+<dl class="method">
+<dt id="pympress.surfacecache.OrderedDict.move_to_end">
+<code class="descname">move_to_end</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.OrderedDict.move_to_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pympress.surfacecache.SurfaceCache">
+<em class="property">class </em><code class="descclassname">pympress.surfacecache.</code><code class="descname">SurfaceCache</code><span class="sig-paren">(</span><em>doc</em>, <em>max_pages</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Pages caching and prerendering made (almost) easy.</p>
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.add_widget">
+<code class="descname">add_widget</code><span class="sig-paren">(</span><em>widget_name</em>, <em>wtype</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.add_widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a widget to the list of widgets that have to be managed (for caching
+and prerendering).</p>
+<p>This creates new entries for <code class="docutils literal"><span class="pre">widget_name</span></code> in the needed internal data
+structures, and creates a new thread for prerendering pages for this
+widget.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget_name</strong> (<em>string</em>) &#8211; string used to identify a widget</li>
+<li><strong>wtype</strong> (<em>integer</em>) &#8211; type of document handled by the widget (see <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.surface_type" title="pympress.surfacecache.SurfaceCache.surface_type"><code class="xref py py-attr docutils literal"><span class="pre">surface_type</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.doc">
+<code class="descname">doc</code><em class="property"> = None</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current <a class="reference internal" href="#pympress.document.Document" title="pympress.document.Document"><code class="xref py py-class docutils literal"><span class="pre">Document</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.doc_lock">
+<code class="descname">doc_lock</code><em class="property"> = None</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.doc_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">Lock</span></code> used to manage conccurent accesses to
+<a class="reference internal" href="#pympress.surfacecache.SurfaceCache.doc" title="pympress.surfacecache.SurfaceCache.doc"><code class="xref py py-attr docutils literal"><span class="pre">doc</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>widget_name</em>, <em>page_nb</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch a cached, prerendered page for the specified widget.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>widget_name</strong> (<em>string</em>) &#8211; name of the concerned widget</li>
+<li><strong>page_nb</strong> (<em>integer</em>) &#8211; number of the page to fetch in the cache</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the cached page if available, or <code class="docutils literal"><span class="pre">None</span></code> otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">cairo.ImageSurface</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.get_widget_type">
+<code class="descname">get_widget_type</code><span class="sig-paren">(</span><em>widget_name</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.get_widget_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the document type of a widget.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>widget_name</strong> (<em>string</em>) &#8211; string used to identify a widget</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">type of document handled by the widget (see <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.surface_type" title="pympress.surfacecache.SurfaceCache.surface_type"><code class="xref py py-attr docutils literal"><span class="pre">surface_type</span></code></a>)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">integer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.locks">
+<code class="descname">locks</code><em class="property"> = {}</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.locks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of <code class="xref py py-class docutils literal"><span class="pre">Lock</span></code>s used for managing conccurent
+accesses to <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.surface_cache" title="pympress.surfacecache.SurfaceCache.surface_cache"><code class="xref py py-attr docutils literal"><span class="pre">surface_cache</span></code></a>, <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.surface_size" title="pympress.surfacecache.SurfaceCache.surface_size"><code class="xref py py-attr docutils literal"><span class="pre">surface_size</span></code></a>, and <code class="xref py py-attr docutils literal"><span class="pre">jobs</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.max_pages">
+<code class="descname">max_pages</code><em class="property"> = 200</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.max_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number fo pages we keep in cache</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.prerender">
+<code class="descname">prerender</code><span class="sig-paren">(</span><em>page_nb</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.prerender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue a page for prerendering.</p>
+<p>The specified page will be prerendered for all the registered widgets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page_nb</strong> (<em>integer</em>) &#8211; number of the page to be prerendered</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.renderer">
+<code class="descname">renderer</code><span class="sig-paren">(</span><em>widget_name</em>, <em>page_nb</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.renderer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rendering thread.</p>
+<p>This function is meant to be run in the prerendering thread. It runs
+infinitely (until the program ends) and does the following steps:</p>
+<ul class="simple">
+<li>check if the job&#8217;s result is not already available in the cache</li>
+<li>render it in a new <code class="xref py py-class docutils literal"><span class="pre">ImageSurface</span></code> if necessary</li>
+<li>store it in the cache if it was not added there since the beginning of
+the process</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget_name</strong> &#8211; name of the concerned widget</li>
+<li><strong>page_nb</strong> (<em>integer</em>) &#8211; number of the page to store in the cache</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.resize_widget">
+<code class="descname">resize_widget</code><span class="sig-paren">(</span><em>widget_name</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.resize_widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the size of a registered widget, thus invalidating all the cached pages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget_name</strong> (<em>string</em>) &#8211; name of the widget that is resized</li>
+<li><strong>width</strong> (<em>integer</em>) &#8211; new width of the widget</li>
+<li><strong>height</strong> (<em>integer</em>) &#8211; new height of the widget</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>widget_name</em>, <em>page_nb</em>, <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store a rendered page in the cache.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget_name</strong> &#8211; name of the concerned widget</li>
+<li><strong>page_nb</strong> (<em>integer</em>) &#8211; number of the page to store in the cache</li>
+<li><strong>val</strong> (<code class="xref py py-class docutils literal"><span class="pre">cairo.ImageSurface</span></code>) &#8211; content to store in the cache</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.surfacecache.SurfaceCache.set_widget_type">
+<code class="descname">set_widget_type</code><span class="sig-paren">(</span><em>widget_name</em>, <em>wtype</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.set_widget_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the document type of a widget.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget_name</strong> (<em>string</em>) &#8211; string used to identify a widget</li>
+<li><strong>wtype</strong> (<em>integer</em>) &#8211; type of document handled by the widget (see <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.surface_type" title="pympress.surfacecache.SurfaceCache.surface_type"><code class="xref py py-attr docutils literal"><span class="pre">surface_type</span></code></a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.surface_cache">
+<code class="descname">surface_cache</code><em class="property"> = {}</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.surface_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>The actual cache. It is a dictionary of <code class="xref py py-class docutils literal"><span class="pre">pympress.surfacecache.Cache</span></code>:
+its keys are widget names and its values are dictionaries whose keys are
+page numbers and values are instances of <code class="xref py py-class docutils literal"><span class="pre">cairo.ImageSurface</span></code>.
+In each <code class="xref py py-class docutils literal"><span class="pre">pympress.surfacecache.Cache</span></code> keys are ordered by Least Recently
+Used (get or set), when the size is beyond <a class="reference internal" href="#pympress.surfacecache.SurfaceCache.max_pages" title="pympress.surfacecache.SurfaceCache.max_pages"><code class="xref py py-attr docutils literal"><span class="pre">max_pages</span></code></a>, pages are
+popped from the start of the cache.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.surface_size">
+<code class="descname">surface_size</code><em class="property"> = {}</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.surface_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the different managed widgets, as a dictionary of tuples</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.surfacecache.SurfaceCache.surface_type">
+<code class="descname">surface_type</code><em class="property"> = {}</em><a class="headerlink" href="#pympress.surfacecache.SurfaceCache.surface_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of document handled by each widget. It is a dictionary: its keys are
+widget names and its values are document types
+(<a class="reference internal" href="#pympress.ui.PDF_REGULAR" title="pympress.ui.PDF_REGULAR"><code class="xref py py-const docutils literal"><span class="pre">PDF_REGULAR</span></code></a>, <a class="reference internal" href="#pympress.ui.PDF_CONTENT_PAGE" title="pympress.ui.PDF_CONTENT_PAGE"><code class="xref py py-const docutils literal"><span class="pre">PDF_CONTENT_PAGE</span></code></a>
+or <a class="reference internal" href="#pympress.ui.PDF_NOTES_PAGE" title="pympress.ui.PDF_NOTES_PAGE"><code class="xref py py-const docutils literal"><span class="pre">PDF_NOTES_PAGE</span></code></a>).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pympress.ui"></span><div class="section" id="pympress-ui-gui-management">
+<h3><a class="reference internal" href="#module-pympress.ui" title="pympress.ui"><code class="xref py py-mod docutils literal"><span class="pre">pympress.ui</span></code></a> &#8211; GUI management<a class="headerlink" href="#pympress-ui-gui-management" title="Permalink to this headline">¶</a></h3>
+<p>This module contains the whole graphical user interface of pympress, which is
+made of two separate windows: the Content window, which displays only the
+current page in full size, and the Presenter window, which displays both the
+current and the next page, as well as a time counter and a clock.</p>
+<p>Both windows are managed by the <a class="reference internal" href="#pympress.ui.UI" title="pympress.ui.UI"><code class="xref py py-class docutils literal"><span class="pre">UI</span></code></a> class.</p>
+<dl class="data">
+<dt id="pympress.ui.PDF_CONTENT_PAGE">
+<code class="descclassname">pympress.ui.</code><code class="descname">PDF_CONTENT_PAGE</code><em class="property"> = 1</em><a class="headerlink" href="#pympress.ui.PDF_CONTENT_PAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Content page (left side) of a PDF file with notes</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="pympress.ui.PDF_NOTES_PAGE">
+<code class="descclassname">pympress.ui.</code><code class="descname">PDF_NOTES_PAGE</code><em class="property"> = 2</em><a class="headerlink" href="#pympress.ui.PDF_NOTES_PAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notes page (right side) of a PDF file with notes</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="pympress.ui.PDF_REGULAR">
+<code class="descclassname">pympress.ui.</code><code class="descname">PDF_REGULAR</code><em class="property"> = 0</em><a class="headerlink" href="#pympress.ui.PDF_REGULAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8220;Regular&#8221; PDF file (without notes)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pympress.ui.UI">
+<em class="property">class </em><code class="descclassname">pympress.ui.</code><code class="descname">UI</code><span class="sig-paren">(</span><em>docpath=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Pympress GUI management.</p>
+<dl class="method">
+<dt id="pympress.ui.UI.add_events">
+<code class="descname">add_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.add_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects the events we want to the different widgets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.adjust_frame_position">
+<code class="descname">adjust_frame_position</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.adjust_frame_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select how to align the frame on screen</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.blanked">
+<code class="descname">blanked</code><em class="property"> = False</em><a class="headerlink" href="#pympress.ui.UI.blanked" title="Permalink to this definition">¶</a></dt>
+<dd><p>track whether we blank the screen</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.c_da">
+<code class="descname">c_da</code><em class="property"> = &lt;DrawingArea object at 0x7f6a08ccd960 (GtkDrawingArea at 0x1465000)&gt;</em><a class="headerlink" href="#pympress.ui.UI.c_da" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">DrawingArea</span></code> for the Content window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.c_frame">
+<code class="descname">c_frame</code><em class="property"> = &lt;AspectFrame object at 0x7f6a08ccd8c0 (GtkAspectFrame at 0x1463000)&gt;</em><a class="headerlink" href="#pympress.ui.UI.c_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">AspectFrame</span></code> for the Content window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.c_win">
+<code class="descname">c_win</code><em class="property"> = &lt;Window object at 0x7f6a08ccd870 (GtkWindow at 0x1458000)&gt;</em><a class="headerlink" href="#pympress.ui.UI.c_win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Content window, as a <code class="xref py py-class docutils literal"><span class="pre">Gtk.Window</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.cache">
+<code class="descname">cache</code><em class="property"> = None</em><a class="headerlink" href="#pympress.ui.UI.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pympress.surfacecache.SurfaceCache" title="pympress.surfacecache.SurfaceCache"><code class="xref py py-class docutils literal"><span class="pre">SurfaceCache</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.config">
+<code class="descname">config</code><em class="property"> = None</em><a class="headerlink" href="#pympress.ui.UI.config" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">configparser.RawConfigParser</span></code> to remember preferences</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.delta">
+<code class="descname">delta</code><em class="property"> = 0</em><a class="headerlink" href="#pympress.ui.UI.delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time elapsed since the beginning of the presentation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.doc">
+<code class="descname">doc</code><em class="property"> = None</em><a class="headerlink" href="#pympress.ui.UI.doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current <a class="reference internal" href="#pympress.document.Document" title="pympress.document.Document"><code class="xref py py-class docutils literal"><span class="pre">Document</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.dpms_was_enabled">
+<code class="descname">dpms_was_enabled</code><em class="property"> = None</em><a class="headerlink" href="#pympress.ui.UI.dpms_was_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>remember DPMS setting before we change it</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.eb_cur">
+<code class="descname">eb_cur</code><em class="property"> = &lt;EventBox object at 0x7f6a08ccdb40 (GtkEventBox at 0x13871b0)&gt;</em><a class="headerlink" href="#pympress.ui.UI.eb_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">EventBox</span></code> associated with the slide counter label in the Presenter window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.editing_cur">
+<code class="descname">editing_cur</code><em class="property"> = False</em><a class="headerlink" href="#pympress.ui.UI.editing_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p>forward keystrokes to the Content window even if the window manager puts Presenter on top</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.fullscreen">
+<code class="descname">fullscreen</code><em class="property"> = False</em><a class="headerlink" href="#pympress.ui.UI.fullscreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fullscreen toggle. By default, don&#8217;t start in fullscreen mode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.label_clock">
+<code class="descname">label_clock</code><em class="property"> = &lt;Label object at 0x7f6a08ccdc80 (GtkLabel at 0x146b3b0)&gt;</em><a class="headerlink" href="#pympress.ui.UI.label_clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clock <code class="xref py py-class docutils literal"><span class="pre">Label</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.label_cur">
+<code class="descname">label_cur</code><em class="property"> = &lt;Label object at 0x7f6a08ccdaa0 (GtkLabel at 0x146b020)&gt;</em><a class="headerlink" href="#pympress.ui.UI.label_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slide counter <code class="xref py py-class docutils literal"><span class="pre">Label</span></code> for the current slide.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.label_last">
+<code class="descname">label_last</code><em class="property"> = &lt;Label object at 0x7f6a08ccdaf0 (GtkLabel at 0x146b150)&gt;</em><a class="headerlink" href="#pympress.ui.UI.label_last" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slide counter <code class="xref py py-class docutils literal"><span class="pre">Label</span></code> for the last slide.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.label_time">
+<code class="descname">label_time</code><em class="property"> = &lt;Label object at 0x7f6a08ccdc30 (GtkLabel at 0x146b280)&gt;</em><a class="headerlink" href="#pympress.ui.UI.label_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elapsed time <code class="xref py py-class docutils literal"><span class="pre">Label</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.make_bottom">
+<code class="descname">make_bottom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.make_bottom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the widgets with page/time info at the bottom of the presenter window</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a box widget containing all the info widgets to put at the page bottom</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Gtk.HBpx</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.make_cwin">
+<code class="descname">make_cwin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.make_cwin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the content window</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.make_menubar">
+<code class="descname">make_menubar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.make_menubar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the menu bar</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the menu bar</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.make_pwin">
+<code class="descname">make_pwin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.make_pwin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the presenter window</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.make_pwin_panes">
+<code class="descname">make_pwin_panes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.make_pwin_panes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the presenter windows&#8217; panes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the preview panes with current and next slide</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Gtk.Paned</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.menu_about">
+<code class="descname">menu_about</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.menu_about" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the &#8220;About pympress&#8221; dialog.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.notes_mode">
+<code class="descname">notes_mode</code><em class="property"> = False</em><a class="headerlink" href="#pympress.ui.UI.notes_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to use notes mode or not</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_configure_da">
+<code class="descname">on_configure_da</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_configure_da" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage &#8220;configure&#8221; events for both windows.</p>
+<p>In the GTK world, this event is triggered when a widget&#8217;s configuration
+is modified, for example when its size changes. So, when this event is
+triggered, we tell the local <a class="reference internal" href="#pympress.surfacecache.SurfaceCache" title="pympress.surfacecache.SurfaceCache"><code class="xref py py-class docutils literal"><span class="pre">SurfaceCache</span></code></a>
+instance about it, so that it can invalidate its internal cache for the
+specified widget and pre-render next pages at a correct size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code>) &#8211; the widget which has been resized</li>
+<li><strong>event</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gdk.Event</span></code>) &#8211; the GTK event, which contains the new dimensions of the
+widget</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_draw">
+<code class="descname">on_draw</code><span class="sig-paren">(</span><em>widget</em>, <em>cairo_context</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage draw events for both windows.</p>
+<p>This callback may be called either directly on a page change or as an
+event handler by GTK. In both cases, it determines which widget needs to
+be updated, and updates it, using the
+<a class="reference internal" href="#pympress.surfacecache.SurfaceCache" title="pympress.surfacecache.SurfaceCache"><code class="xref py py-class docutils literal"><span class="pre">SurfaceCache</span></code></a> if possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code>) &#8211; the widget to update</li>
+<li><strong>cairo_context</strong> (<code class="xref py py-class docutils literal"><span class="pre">cairo.Context</span></code>) &#8211; the Cairo context (or <code class="docutils literal"><span class="pre">None</span></code> if called directly)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_label_event">
+<code class="descname">on_label_event</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_label_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage events on the current slide label/entry.</p>
+<p>This function replaces the label with an entry when clicked, replaces
+the entry with a label when needed, etc. The nasty stuff it does is an
+ancient kind of dark magic that should be avoided as much as possible...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code>) &#8211; the widget in which the event occured</li>
+<li><strong>event</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gdk.Event</span></code>) &#8211; the event that occured</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_link">
+<code class="descname">on_link</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage events related to hyperlinks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code>) &#8211; the widget in which the event occured</li>
+<li><strong>event</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gdk.Event</span></code>) &#8211; the event that occured</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_navigation">
+<code class="descname">on_navigation</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_navigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage events as mouse scroll or clicks for both windows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gtk.Widget</span></code>) &#8211; the widget in which the event occured (ignored)</li>
+<li><strong>event</strong> (<code class="xref py py-class docutils literal"><span class="pre">Gdk.Event</span></code>) &#8211; the event that occured</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.on_page_change">
+<code class="descname">on_page_change</code><span class="sig-paren">(</span><em>unpause=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.on_page_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to another page and display it.</p>
+<p>This is a kind of event which is supposed to be called only from the
+<a class="reference internal" href="#pympress.document.Document" title="pympress.document.Document"><code class="xref py py-class docutils literal"><span class="pre">Document</span></code></a> class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unpause</strong> (<em>boolean</em>) &#8211; <code class="docutils literal"><span class="pre">True</span></code> if the page change should unpause the timer,
+<code class="docutils literal"><span class="pre">False</span></code> otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_da_cur">
+<code class="descname">p_da_cur</code><em class="property"> = &lt;DrawingArea object at 0x7f6a08ccda50 (GtkDrawingArea at 0x14650c0)&gt;</em><a class="headerlink" href="#pympress.ui.UI.p_da_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">DrawingArea</span></code> for the current slide in the Presenter window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_da_next">
+<code class="descname">p_da_next</code><em class="property"> = &lt;DrawingArea object at 0x7f6a08ccdbe0 (GtkDrawingArea at 0x1465180)&gt;</em><a class="headerlink" href="#pympress.ui.UI.p_da_next" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">DrawingArea</span></code> for the next slide in the Presenter window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_frame_cur">
+<code class="descname">p_frame_cur</code><em class="property"> = &lt;AspectFrame object at 0x7f6a08ccda00 (GtkAspectFrame at 0x1463150)&gt;</em><a class="headerlink" href="#pympress.ui.UI.p_frame_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">AspectFrame</span></code> for the current slide in the Presenter window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_frame_next">
+<code class="descname">p_frame_next</code><em class="property"> = &lt;AspectFrame object at 0x7f6a08ccdb90 (GtkAspectFrame at 0x14632a0)&gt;</em><a class="headerlink" href="#pympress.ui.UI.p_frame_next" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">AspectFrame</span></code> for the next slide in the Presenter window.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_win">
+<code class="descname">p_win</code><em class="property"> = &lt;Window object at 0x7f6a08ccd9b0 (GtkWindow at 0x1458190)&gt;</em><a class="headerlink" href="#pympress.ui.UI.p_win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presentation window, as a <code class="xref py py-class docutils literal"><span class="pre">Gtk.Window</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.p_win_maximized">
+<code class="descname">p_win_maximized</code><em class="property"> = True</em><a class="headerlink" href="#pympress.ui.UI.p_win_maximized" title="Permalink to this definition">¶</a></dt>
+<dd><p>track state of preview window</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.page_preview">
+<code class="descname">page_preview</code><span class="sig-paren">(</span><em>page_nb</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.page_preview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to another page and display it.</p>
+<p>This is a kind of event which is supposed to be called only from the
+<a class="reference internal" href="#pympress.document.Document" title="pympress.document.Document"><code class="xref py py-class docutils literal"><span class="pre">Document</span></code></a> class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unpause</strong> (<em>boolean</em>) &#8211; <code class="docutils literal"><span class="pre">True</span></code> if the page change should unpause the timer,
+<code class="docutils literal"><span class="pre">False</span></code> otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.page_preview_nb">
+<code class="descname">page_preview_nb</code><em class="property"> = 0</em><a class="headerlink" href="#pympress.ui.UI.page_preview_nb" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of page currently displayed in Controller window&#8217;s miniatures</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.paused">
+<code class="descname">paused</code><em class="property"> = True</em><a class="headerlink" href="#pympress.ui.UI.paused" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timer paused status.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.pick_file">
+<code class="descname">pick_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.pick_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.reset_timer">
+<code class="descname">reset_timer</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.reset_timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the timer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.restore_current_label">
+<code class="descname">restore_current_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.restore_current_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure that the current page number is displayed in a label and not
+in an entry. If it is an entry, then replace it with the label.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the GTK main loop.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.save_and_quit">
+<code class="descname">save_and_quit</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.save_and_quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save configuration and exit the main loop</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.screensaver_was_enabled">
+<code class="descname">screensaver_was_enabled</code><em class="property"> = 0</em><a class="headerlink" href="#pympress.ui.UI.screensaver_was_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>remember screen saver setting before we change it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.set_screensaver">
+<code class="descname">set_screensaver</code><span class="sig-paren">(</span><em>must_disable</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.set_screensaver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable the screensaver.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">At the moment, this is only supported on POSIX systems
+where <strong class="command">xdg-screensaver</strong> is installed and working. For now,
+this feature has only been tested on <strong>Linux with xscreensaver</strong>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>must_disable</strong> (<em>boolean</em>) &#8211; if <code class="docutils literal"><span class="pre">True</span></code>, indicates that the screensaver must be
+disabled; otherwise it will be enabled</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.spin_cur">
+<code class="descname">spin_cur</code><em class="property"> = None</em><a class="headerlink" href="#pympress.ui.UI.spin_cur" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">SpinButton</span></code> used to switch to another slide by typing its number.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pympress.ui.UI.start_time">
+<code class="descname">start_time</code><em class="property"> = 0</em><a class="headerlink" href="#pympress.ui.UI.start_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time at which the counter was started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.swap_screens">
+<code class="descname">swap_screens</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.swap_screens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Swap the monitors on which each window is displayed (if there are 2 monitors at least)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.switch_blanked">
+<code class="descname">switch_blanked</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.switch_blanked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch the blanked mode of the main screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.switch_fullscreen">
+<code class="descname">switch_fullscreen</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.switch_fullscreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch the Content window to fullscreen (if in normal mode) or to normal
+mode (if fullscreen).</p>
+<p>Screensaver will be disabled when entering fullscreen mode, and enabled
+when leaving fullscreen mode.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.switch_mode">
+<code class="descname">switch_mode</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.switch_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch the display mode to &#8220;Notes mode&#8221; or &#8220;Normal mode&#8221; (without notes)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.switch_pause">
+<code class="descname">switch_pause</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.switch_pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch the timer between paused mode and running (normal) mode.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.switch_start_blanked">
+<code class="descname">switch_start_blanked</code><span class="sig-paren">(</span><em>widget=None</em>, <em>event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.switch_start_blanked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch the blanked mode of the main screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.track_pwin_maximized">
+<code class="descname">track_pwin_maximized</code><span class="sig-paren">(</span><em>widget</em>, <em>event</em>, <em>user_data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.track_pwin_maximized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track whether the preview window is maximized</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.update_frame_position">
+<code class="descname">update_frame_position</code><span class="sig-paren">(</span><em>widget=None</em>, <em>user_data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.update_frame_position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.update_page_numbers">
+<code class="descname">update_page_numbers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.update_page_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the displayed page numbers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pympress.ui.UI.update_time">
+<code class="descname">update_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.ui.UI.update_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the timer and clock labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> (to prevent the timer from stopping)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pympress.util"></span><div class="section" id="pympress-util-various-utility-functions">
+<h3><a class="reference internal" href="#module-pympress.util" title="pympress.util"><code class="xref py py-mod docutils literal"><span class="pre">pympress.util</span></code></a> &#8211; various utility functions<a class="headerlink" href="#pympress-util-various-utility-functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="pympress.util.get_icon_pixbuf">
+<code class="descclassname">pympress.util.</code><code class="descname">get_icon_pixbuf</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.get_icon_pixbuf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pympress.util.list_icons">
+<code class="descclassname">pympress.util.</code><code class="descname">list_icons</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.list_icons" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pympress.util.load_config">
+<code class="descclassname">pympress.util.</code><code class="descname">load_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.load_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pympress.util.load_icons">
+<code class="descclassname">pympress.util.</code><code class="descname">load_icons</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.load_icons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load pympress icons from the pixmaps directory (usually
+<code class="file docutils literal"><span class="pre">/usr/share/pixmaps</span></code> or something similar).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">loaded icons</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of <code class="xref py py-class docutils literal"><span class="pre">GdkPixbuf.Pixbuf</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pympress.util.path_to_config">
+<code class="descclassname">pympress.util.</code><code class="descname">path_to_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.path_to_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pympress.util.save_config">
+<code class="descclassname">pympress.util.</code><code class="descname">save_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#pympress.util.save_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009-2011, Thomas Jost.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'b&#39;0.3-60-gaaf0316&#39;',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
