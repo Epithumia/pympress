@@ -34,4 +34,9 @@ Submodules
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: pympress.vlcvideo
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
